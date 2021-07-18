@@ -2,6 +2,7 @@
 .vscode
 project_files/*
 !project_files/*.sln
+!project_files/CMakeLists.txt
 /bin
 /lib
 __pycache__
