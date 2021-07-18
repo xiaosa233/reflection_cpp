@@ -1,0 +1,9 @@
+.vs/
+.vscode
+project_files/*
+!project_files/*.sln
+/bin
+/lib
+__pycache__
+third_party_sources
+doc
