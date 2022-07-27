@@ -1,12 +1,16 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 
 namespace reflection {
 
 template <size_t N>
 struct byte_swapper {
-  inline static void swap(void* ptr) { static_assert(false, "Can not swap size with N"); }
+  template<bool T = false>
+  inline static void swap(void* ptr) {
+    static_assert(sizeof(T) > 0, "Can not swap size with N");
+  }
 };
 
 template <>
