@@ -51,7 +51,7 @@ status serialize_to_text_file(const meta_object& object, const std::string_view&
 
   std::string out;
   return_if_error(object.serialize_to_string(&out, &context));
-  std::ofstream fstream_v(file_path);
+  std::ofstream fstream_v(view_to_string(file_path));
   fstream_v.write(out.data(), out.size());
   fstream_v << '\n';
   return !fstream_v.fail()
@@ -63,7 +63,7 @@ status serialize_from_text_file(const std::string_view& file_path, meta_object* 
   if (!fs::exists(file_path)) {
     return status::error(view_to_string(file_path) + " does not exists!");
   }
-  std::ifstream fstream_v(file_path);
+  std::ifstream fstream_v(view_to_string(file_path));
   fstream_v.seekg(0, std::ios::end);
   size_t max_size = static_cast<size_t>(fstream_v.tellg());
   std::string out;
@@ -87,7 +87,7 @@ status serialize_to_binary_file(const meta_object& object, const std::string_vie
 
   std::vector<char> buffer;
   return_if_error(object.serialize_to_bytes(&buffer, endian_v));
-  std::ofstream fstream_v(file_path, std::ios::binary);
+  std::ofstream fstream_v(view_to_string(file_path), std::ios::binary);
 
   uint32_t tmp_magic_number = magic_number;
   if (endian::native != endian::big) {
@@ -116,7 +116,7 @@ status serialize_from_binary_file(const std::string_view& file_path, meta_object
   if (!fs::exists(file_path)) {
     return status::error(view_to_string(file_path) + " does not exists!");
   }
-  std::ifstream fstream_v(file_path, std::ios::binary);
+  std::ifstream fstream_v(view_to_string(file_path), std::ios::binary);
   // check magic number;
   uint32_t in_magic_number = 0;
   fstream_v.read(reinterpret_cast<char*>(&in_magic_number), 4);

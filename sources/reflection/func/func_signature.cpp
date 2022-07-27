@@ -41,8 +41,9 @@ std::string func_args::to_string() const {
 }
 
 bool func_signature::to(const func_signature& other) const {
-  if (!(return_type.to(other.return_type) && args_type.size() == other.args_type.size()))
+  if (!(return_type.to(other.return_type) && args_type.size() == other.args_type.size())) {
     return false;
+  }
   for (const auto& arg : args_type) {
     if (!arg.to(other.args_type[&arg - args_type.data()])) {
       return false;

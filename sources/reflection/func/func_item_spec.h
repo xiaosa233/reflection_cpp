@@ -15,9 +15,10 @@ public:
   static constexpr bool constexpr_is_const = member_func_info_t::is_const;
   static constexpr size_t constexpr_args_size = member_func_info_t::args_size;
   using class_pointer = std::conditional_t<constexpr_is_const, const ClassT*, ClassT*>;
+  using base = func_item_trait_args<ClassT, MemberFuncPtr>;
 
   func_item_spec(const char* func_name, MemberFuncPtr ptr)
-      : func_item_trait_args(func_name), ptr_(ptr),
+      : base(func_name), ptr_(ptr),
         func_signature_(
             trait_signature_helper<typename member_func_info_t::functional_type>::trait()) {}
 
@@ -71,13 +72,13 @@ private:
 
   // If functional type can not be serialized to the string, we will just return error.
   template <bool is_serializable>
-  string_status invoke_by_string_help(const std::vector<std::string>& args,
+  std::enable_if_t<is_serializable, string_status> invoke_by_string_help(const std::vector<std::string>& args,
                                       meta_object* object) const {
     static_assert(std::is_convertible_v<ClassT*, meta_object*>,
                   "Class type must be the devied class of the meta_object");
     if (args.size() != constexpr_args_size) {
       return string_status::error(
-          get_func_hint() + ": Size of args is not equal with the real size. " +
+          base::get_func_hint() + ": Size of args is not equal with the real size. " +
           std::to_string(args.size()) + " vs " + std::to_string(constexpr_args_size));
     }
     return string_status::ok(string_callable<constexpr_args_size>::call(
@@ -85,10 +86,10 @@ private:
             ptr_, static_cast<std::conditional_t<is_static_func, void*, ClassT*>>(object)),
         args));
   }
-  template <>
-  string_status invoke_by_string_help<false>(const std::vector<std::string>& args,
+  template <bool is_serializable>
+  std::enable_if_t<!is_serializable, string_status> invoke_by_string_help(const std::vector<std::string>& args,
                                              meta_object* object) const {
-    return string_status::error(get_func_hint() +
+    return string_status::error(base::get_func_hint() +
                                 " return type or args can not serialize to the string!");
   }
 

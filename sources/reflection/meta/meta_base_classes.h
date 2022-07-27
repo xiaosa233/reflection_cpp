@@ -152,7 +152,7 @@ public:
   }
   template <class T>
   T* mutable_get(const std::string_view& name) const {
-    return get_meta_info().get_meta_item(name).mutable_get<T>(this);
+    return get_meta_info().get_meta_item(view_to_string(name)).mutable_get<T>(this);
   }
 
   template <class T>

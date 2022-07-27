@@ -5,3 +5,9 @@ class reflection:
         self.third_parties = [
             'googletest',
         ]
+    
+    def pre_build(self):
+        print('pre build: reflection')
+
+    def post_build(self):
+        print('post build: reflection')

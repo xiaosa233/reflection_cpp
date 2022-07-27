@@ -1,5 +1,3 @@
-#pragma once
-
 #include "meta/meta_base_classes.h"
 
 #include "meta/meta_manager.h"

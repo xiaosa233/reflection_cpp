@@ -60,12 +60,15 @@ public:
       call_signature.args_type.erase(call_signature.args_type.begin());
     }
     const func_signature& real_signature = get_signature();
+// weird trick. If enable optimization, somehow, it will go into the failure branch whatever the return value.
+#pragma optimize( "s", on )
     if (!call_signature.to(real_signature)) {
-      return context_status<return_type>::error(get_func_hint() + ": error invoke info " +
+      return context_status<return_type>::error(real_signature.to_string() + ": error invoke info " +
                                                 call_signature.to_string());
     }
     return static_cast<const func_item_args_type<return_type, Args...>*>(this)->invoke_help(
         std::forward<Args>(args)...);
+#pragma optimize( "s", off )
   }
 
 protected:

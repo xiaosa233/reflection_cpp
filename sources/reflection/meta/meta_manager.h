@@ -13,7 +13,7 @@ class meta_info_manager {
 public:
   static const meta_info_manager& get() { return inst(); }
 
-  std::unique_ptr<meta_object> meta_info_manager::create(const std::string& name) const;
+  std::unique_ptr<meta_object> create(const std::string& name) const;
 
   bool has(const std::string& name) const { return meta_info_map_.count(name); }
 

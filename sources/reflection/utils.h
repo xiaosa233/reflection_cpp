@@ -39,7 +39,7 @@ template <class ItemIt, class T, class... Args>
 void aggregate_initialize_help(ItemIt first, ItemIt last, meta_object* object, T&& t,
                                Args&&... args) {
   assert(first != last);
-  object->set<std::decay_t<T>>((*first)->name(), std::forward<T>(t));
+  object->template set<std::decay_t<T>>((*first)->name(), std::forward<T>(t));
   aggregate_initialize_help(std::next(first), last, object, std::forward<Args>(args)...);
 }
 
@@ -59,7 +59,7 @@ MetaT aggregate_initialize(Args&&... args) {
 template <class CharT, class MemT, class T>
 void pair_initialize_help(std::pair<CharT, MemT>&& pair_v, T* object) {
   assert(object->has_meta(pair_v.first));
-  object->set<std::decay_t<MemT>>(pair_v.first, std::forward<MemT>(pair_v.second));
+  object->template set<typename std::decay_t<MemT>>(pair_v.first, std::forward<MemT>(pair_v.second));
 }
 
 template <class MetaT, class... Args>

@@ -41,7 +41,7 @@ class meta_item_spec : public meta_item_mem_type<MemT> {
   static_assert(std::is_convertible_v<T*, meta_object*>, " T is not a meta_object derived class!");
 
 public:
-  meta_item_spec(const char* type, const char* name) : meta_item_mem_type(type, name) {}
+  meta_item_spec(const char* type, const char* name) : meta_item_mem_type<MemT>(type, name) {}
   ~meta_item_spec() override = default;
 
   const MemT& get(const meta_object* ptr) const override {
@@ -64,7 +64,7 @@ struct meta_item_self_wrapper : public meta_item_mem_type<T> {
 
 public:
   static constexpr const char* self_class_type = "self_class_type";
-  meta_item_self_wrapper() : meta_item_mem_type(self_class_type, "") {}
+  meta_item_self_wrapper() : meta_item_mem_type<T>(self_class_type, "") {}
   ~meta_item_self_wrapper() override = default;
 
   const T& get(const meta_object* ptr) const override { return *static_cast<const T*>(ptr); }

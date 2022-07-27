@@ -31,11 +31,15 @@ source_group("sources\\func" FILES ${reflection_func})
 source_group("sources\\serialization" FILES ${reflection_serialization})
 add_library(reflection STATIC ${reflection}  ${reflection_meta}  ${reflection_func}  ${reflection_serialization}  ${reflection_BUILD_TARGET_FILE_GROUP} )
 target_include_directories(reflection 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(reflection  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(reflection  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general pthread
 )
+add_custom_command(TARGET reflection PRE_BUILD COMMAND /usr/bin/python3 /home/xiaojian.li/personal/quick_cmake/sources/quick_cmake/main.py --workspace /home/xiaojian.li/personal/reflection_cpp --std=c++17 --module=reflection --pre_build)
+add_custom_command(TARGET reflection POST_BUILD COMMAND /usr/bin/python3 /home/xiaojian.li/personal/quick_cmake/sources/quick_cmake/main.py --workspace /home/xiaojian.li/personal/reflection_cpp --std=c++17 --module=reflection --post_build)
 set_target_properties(reflection PROPERTIES LINKER_LANGUAGE CXX)
 
 
@@ -44,9 +48,11 @@ FILE(GLOB test_reflection_reflection ${SOURCE_DIR}/reflection/reflection_test.cp
 source_group("ut_file" FILES ${test_reflection_reflection})
 add_executable(test_reflection_reflection ${test_reflection_reflection} )
 target_include_directories(test_reflection_reflection 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_reflection  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_reflection  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -58,9 +64,11 @@ FILE(GLOB test_reflection_status ${SOURCE_DIR}/reflection/status_test.cpp)
 source_group("ut_file" FILES ${test_reflection_status})
 add_executable(test_reflection_status ${test_reflection_status} )
 target_include_directories(test_reflection_status 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_status  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_status  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -72,9 +80,11 @@ FILE(GLOB test_reflection_utils ${SOURCE_DIR}/reflection/utils_test.cpp)
 source_group("ut_file" FILES ${test_reflection_utils})
 add_executable(test_reflection_utils ${test_reflection_utils} )
 target_include_directories(test_reflection_utils 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_utils  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_utils  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -86,9 +96,11 @@ FILE(GLOB test_reflection_meta_meta_base_classes ${SOURCE_DIR}/reflection/meta/m
 source_group("ut_file" FILES ${test_reflection_meta_meta_base_classes})
 add_executable(test_reflection_meta_meta_base_classes ${test_reflection_meta_meta_base_classes} )
 target_include_directories(test_reflection_meta_meta_base_classes 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_meta_meta_base_classes  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_meta_meta_base_classes  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -100,9 +112,11 @@ FILE(GLOB test_reflection_func_string_callable ${SOURCE_DIR}/reflection/func/str
 source_group("ut_file" FILES ${test_reflection_func_string_callable})
 add_executable(test_reflection_func_string_callable ${test_reflection_func_string_callable} )
 target_include_directories(test_reflection_func_string_callable 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_func_string_callable  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_func_string_callable  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -114,9 +128,11 @@ FILE(GLOB test_reflection_func_func_base_classes ${SOURCE_DIR}/reflection/func/f
 source_group("ut_file" FILES ${test_reflection_func_func_base_classes})
 add_executable(test_reflection_func_func_base_classes ${test_reflection_func_func_base_classes} )
 target_include_directories(test_reflection_func_func_base_classes 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_func_func_base_classes  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_func_func_base_classes  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -128,9 +144,11 @@ FILE(GLOB test_reflection_func_func_signature ${SOURCE_DIR}/reflection/func/func
 source_group("ut_file" FILES ${test_reflection_func_func_signature})
 add_executable(test_reflection_func_func_signature ${test_reflection_func_func_signature} )
 target_include_directories(test_reflection_func_func_signature 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_func_func_signature  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_func_func_signature  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -142,9 +160,11 @@ FILE(GLOB test_reflection_serialization_binary_coder ${SOURCE_DIR}/reflection/se
 source_group("ut_file" FILES ${test_reflection_serialization_binary_coder})
 add_executable(test_reflection_serialization_binary_coder ${test_reflection_serialization_binary_coder} )
 target_include_directories(test_reflection_serialization_binary_coder 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_serialization_binary_coder  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_serialization_binary_coder  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -156,9 +176,11 @@ FILE(GLOB test_reflection_serialization_text_code ${SOURCE_DIR}/reflection/seria
 source_group("ut_file" FILES ${test_reflection_serialization_text_code})
 add_executable(test_reflection_serialization_text_code ${test_reflection_serialization_text_code} )
 target_include_directories(test_reflection_serialization_text_code 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_serialization_text_code  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_serialization_text_code  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -170,9 +192,11 @@ FILE(GLOB test_reflection_serialization_byte_swapper ${SOURCE_DIR}/reflection/se
 source_group("ut_file" FILES ${test_reflection_serialization_byte_swapper})
 add_executable(test_reflection_serialization_byte_swapper ${test_reflection_serialization_byte_swapper} )
 target_include_directories(test_reflection_serialization_byte_swapper 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_serialization_byte_swapper  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_serialization_byte_swapper  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -184,9 +208,11 @@ FILE(GLOB test_reflection_serialization_utils ${SOURCE_DIR}/reflection/serializa
 source_group("ut_file" FILES ${test_reflection_serialization_utils})
 add_executable(test_reflection_serialization_utils ${test_reflection_serialization_utils} )
 target_include_directories(test_reflection_serialization_utils 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_serialization_utils  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_serialization_utils  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -198,9 +224,11 @@ FILE(GLOB test_reflection_serialization_serialize ${SOURCE_DIR}/reflection/seria
 source_group("ut_file" FILES ${test_reflection_serialization_serialize})
 add_executable(test_reflection_serialization_serialize ${test_reflection_serialization_serialize} )
 target_include_directories(test_reflection_serialization_serialize 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_serialization_serialize  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_serialization_serialize  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )
@@ -212,9 +240,11 @@ FILE(GLOB test_reflection_serialization_endian ${SOURCE_DIR}/reflection/serializ
 source_group("ut_file" FILES ${test_reflection_serialization_endian})
 add_executable(test_reflection_serialization_endian ${test_reflection_serialization_endian} )
 target_include_directories(test_reflection_serialization_endian 
- PUBLIC ${PROJECT_DIR}/third_parties/googletest/include PUBLIC ${SOURCE_DIR}/reflection)
-target_link_libraries(test_reflection_serialization_endian  general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest.a
- general ${PROJECT_DIR}/third_parties/googletest/lib/libgtest_main.a
+ PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
+target_link_libraries(test_reflection_serialization_endian  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
  general reflection
  general pthread
 )

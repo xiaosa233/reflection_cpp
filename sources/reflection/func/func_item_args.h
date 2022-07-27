@@ -83,10 +83,10 @@ class func_item_spec;
 // It is used to get the type of the args.
 template <class ClassT, class Func>
 class func_item_trait_args {
-  template <class... Args>
-  func_item_trait_args(Args&&...) {
-    static_assert(false, "Should not arrive.");
-  }
+  // template <class... Args>
+  // func_item_trait_args(Args&&...) {
+  //   static_assert(false, "Should not arrive.");
+  // }
 };
 
 // For non-const member function
@@ -95,7 +95,7 @@ class func_item_trait_args<ClassT, R (ClassT::*)(Args...)>
     : public func_item_args_type<R, ClassT*, Args...> {
 public:
   using derived_item = func_item_spec<ClassT, R (ClassT::*)(Args...)>;
-  func_item_trait_args(const char* func_name) : func_item_args_type(func_name) {}
+  func_item_trait_args(const char* func_name) : func_item_args_type<R, ClassT*, Args...>(func_name) {}
 
 protected:
   virtual context_status<R> invoke_forward(ClassT*&& inst,
@@ -112,7 +112,7 @@ class func_item_trait_args<ClassT, R (ClassT::*)(Args...) const>
 
 public:
   using derived_item = func_item_spec<ClassT, R (ClassT::*)(Args...) const>;
-  func_item_trait_args(const char* func_name) : func_item_args_type(func_name) {}
+  func_item_trait_args(const char* func_name) : func_item_args_type<R, const ClassT*, Args...>(func_name) {}
 
 protected:
   virtual context_status<R> invoke_forward(const ClassT*&& inst,
@@ -127,7 +127,7 @@ template <class ClassT, class R, class... Args>
 class func_item_trait_args<ClassT, R (*)(Args...)> : public func_item_args_type<R, Args...> {
 public:
   using derived_item = func_item_spec<ClassT, R (*)(Args...)>;
-  func_item_trait_args(const char* func_name) : func_item_args_type(func_name) {}
+  func_item_trait_args(const char* func_name) : func_item_args_type<R, Args...>(func_name) {}
 
 protected:
   virtual context_status<R> invoke_forward(Args&&... args) const override {

@@ -66,9 +66,7 @@ struct string_callable {
 private:
   template <class T1, class T2, class R, class... Args>
   static R call_help(const member_function_wrapper<T1, T2, R(Args...)>& func,
-                     const std::vector<std::string>& args) {
-    static_assert(false, "Should not arrive.");
-  }
+                     const std::vector<std::string>& args);
 };
 
 template <>

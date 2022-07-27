@@ -60,6 +60,7 @@ TEST(TypeNameTest, type_name) {
   EXPECT_EQ("const signed_integral_4", trait_args<const int32_t>().to_string());
   EXPECT_EQ("const signed_integral&_4", trait_args<const int32_t&>().to_string());
   EXPECT_EQ(append_pointer("signed_integral*_"), trait_args<int32_t*>().to_string());
+  EXPECT_EQ(append_pointer("signed_integral*&_"), trait_args<int32_t*&>().to_string());
   EXPECT_EQ(append_pointer("const signed_integral*_"), trait_args<const int32_t*>().to_string());
   EXPECT_EQ(append_pointer("const signed_integral*const_"), trait_args<const int32_t*const>().to_string());
   EXPECT_EQ(append_pointer("signed_integral**_"), trait_args<int32_t**>().to_string());
@@ -113,6 +114,20 @@ TEST(TypeNameTest, type_name) {
     EXPECT_FALSE(arg.is_rvalue_reference);
     EXPECT_FALSE(arg.is_const_pointer);
   }
+  {
+    func_args arg = trait_args<int32_t*&>();
+    EXPECT_FALSE(arg.is_const);
+    EXPECT_TRUE(arg.is_lvalue_reference);
+    EXPECT_FALSE(arg.is_rvalue_reference);
+    EXPECT_FALSE(arg.is_const_pointer);
+  }
+  {
+    func_args arg = trait_args<int32_t*>();
+    EXPECT_FALSE(arg.is_const);
+    EXPECT_FALSE(arg.is_lvalue_reference);
+    EXPECT_FALSE(arg.is_rvalue_reference);
+    EXPECT_FALSE(arg.is_const_pointer);
+  }  
 }
 
 TEST(TypeNameTest, func_args) {
@@ -124,6 +139,8 @@ TEST(TypeNameTest, func_args) {
   EXPECT_TRUE(default_result);
   default_result = func_args_to_test<int, const int&>();
   EXPECT_TRUE(default_result);
+  default_result = func_args_to_test<double, const double&>();
+  EXPECT_TRUE(default_result);
   default_result = func_args_to_test<const int&, const int&>();
   EXPECT_TRUE(default_result);
   default_result = func_args_to_test<const int&, const int>();
@@ -131,6 +148,8 @@ TEST(TypeNameTest, func_args) {
   default_result = func_args_to_test<const int, int>();
   EXPECT_TRUE(default_result);
   default_result = func_args_to_test<const int&, int>();
+  EXPECT_TRUE(default_result);
+  default_result = func_args_to_test<const double&, double>();
   EXPECT_TRUE(default_result);
   default_result = func_args_to_test<int&, int&>();
   EXPECT_TRUE(default_result);
@@ -178,7 +197,7 @@ TEST(TypeNameTest, func_args) {
   default_result = func_args_to_test<const int*&, int*>();
   EXPECT_FALSE(default_result);
   default_result = func_args_to_test<const int*const&, const int*&>();
-  EXPECT_FALSE(default_result);
+  EXPECT_FALSE(default_result);  
 }
 
 } // namespace func_signature_detail

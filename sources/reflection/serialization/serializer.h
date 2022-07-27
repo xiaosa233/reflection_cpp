@@ -184,14 +184,14 @@ struct vector_serializer<std::vector<T, Args...>> {
 
 private:
   template <bool is_trivial>
-  static status serialize_to_bytes_help(const vector_type& inst, endian endian_v,
+  static std::enable_if_t<is_trivial, status> serialize_to_bytes_help(const vector_type& inst, endian endian_v,
                                         std::vector<char>* out) {
     return binary_coder<vector_type>::code(inst, endian_v, out);
   }
 
-  template <>
-  static status serialize_to_bytes_help<false>(const vector_type& inst, endian endian_v,
-                                               std::vector<char>* out) {
+  template <bool is_trivial>
+  static std::enable_if_t<!is_trivial, status> serialize_to_bytes_help(const vector_type& inst, endian endian_v,
+                                                std::vector<char>* out) {
     for (const auto& it : inst) {
       if (skip_help(it, static_cast<serializer_type*>(nullptr))) {
         continue;
@@ -203,14 +203,14 @@ private:
   }
 
   template <bool is_trivial>
-  static status serialize_from_bytes_help(const char* first, const char* last, endian endian_v,
+  static std::enable_if_t<is_trivial, status> serialize_from_bytes_help(const char* first, const char* last, endian endian_v,
                                           vector_type* inst) {
     return binary_coder<vector_type>::decode(first, last, endian_v, inst);
   }
 
-  template <>
-  static status serialize_from_bytes_help<false>(const char* first, const char* last,
-                                                 endian endian_v, vector_type* inst) {
+  template <bool is_trivial>
+  static std::enable_if_t<!is_trivial, status> serialize_from_bytes_help(const char* first, const char* last,
+                                                  endian endian_v, vector_type* inst) {
     while (first < last) {
       uint32_t block_size = 0;
       return_if_error(general_serializer<uint32_t>::serialize_from_bytes(

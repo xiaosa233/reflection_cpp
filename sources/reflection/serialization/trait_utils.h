@@ -3,7 +3,10 @@
 #include <optional>
 #include <vector>
 
+
 namespace reflection {
+
+class meta_object;
 
 /* Usage for selector:
    selector<0, T1, T2, T3>::type -> T1
