@@ -141,9 +141,6 @@ Invoke function will check the args information. If they are not match, false st
 Call by string will be helpful in C++ RPC projects.
 
 
-# Others
-TODO... or
-
 # Compile 
 I use one of my own tools to generate cmake files. 
 
@@ -151,9 +148,7 @@ Tool is [quick_cmake](https://github.com/xiaosa233/quick_cmake)
 
 Fortunately, the ready-made cmake file is here: project_files/CmakeLists.txt
 
-
-Only windows support now. Compile on Win10 by VS2019.
-## Windows
+Windows(VS2022) && Ubuntu(G++) are both supported.
 
 ```
 cd project_files
@@ -164,10 +159,3 @@ or use quick_cmake
 ```
 python quick_cmake.py
 ```
-
-## Linux
-On going...
-
-
-
-
