@@ -19,7 +19,6 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_DIR}/bin)
 include_directories(${SOURCE_DIR})
 
 
-add_compile_options(/Zc:preprocessor)
 # module reflection
 FILE(GLOB reflection ${SOURCE_DIR}/reflection/common.h ${SOURCE_DIR}/reflection/reflection.h ${SOURCE_DIR}/reflection/reflection_func.h ${SOURCE_DIR}/reflection/reflection_meta.h ${SOURCE_DIR}/reflection/status.h ${SOURCE_DIR}/reflection/to_string_utils.h ${SOURCE_DIR}/reflection/utils.h ${SOURCE_DIR}/reflection/utils.cpp)
 FILE(GLOB reflection_func ${SOURCE_DIR}/reflection/func/func_base_classes.h ${SOURCE_DIR}/reflection/func/func_info_spec.h ${SOURCE_DIR}/reflection/func/func_item_args.h ${SOURCE_DIR}/reflection/func/func_item_spec.h ${SOURCE_DIR}/reflection/func/func_signature.h ${SOURCE_DIR}/reflection/func/string_callable.h ${SOURCE_DIR}/reflection/func/utils.h ${SOURCE_DIR}/reflection/func/func_signature.cpp)
@@ -33,13 +32,14 @@ source_group("sources\\serialization" FILES ${reflection_serialization})
 add_library(reflection STATIC ${reflection}  ${reflection_func}  ${reflection_meta}  ${reflection_serialization}  ${reflection_BUILD_TARGET_FILE_GROUP} )
 target_include_directories(reflection 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(reflection  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
+target_link_libraries(reflection  optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest.a
+ optimized ${PROJECT_DIR}/third_parties/googletest/lib/linux/Release/libgtest_main.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest.a
+ debug ${PROJECT_DIR}/third_parties/googletest/lib/linux/Debug/libgtest_main.a
+ general pthread
 )
-add_custom_command(TARGET reflection PRE_BUILD COMMAND C:/Users/xj-atrua/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/python.exe C:/personal/quick_cmake/sources/quick_cmake/main.py --workspace C:/personal/reflection_cpp --std=c++17 --compile_options=/Zc:preprocessor --module=reflection --pre_build)
-add_custom_command(TARGET reflection POST_BUILD COMMAND C:/Users/xj-atrua/AppData/Local/Microsoft/WindowsApps/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/python.exe C:/personal/quick_cmake/sources/quick_cmake/main.py --workspace C:/personal/reflection_cpp --std=c++17 --compile_options=/Zc:preprocessor --module=reflection --post_build)
+add_custom_command(TARGET reflection PRE_BUILD COMMAND /usr/bin/python3 /mnt/c/personal/quick_cmake/sources/quick_cmake/main.py --workspace /mnt/c/personal/reflection_cpp --std=c++17 --module=reflection --pre_build)
+add_custom_command(TARGET reflection POST_BUILD COMMAND /usr/bin/python3 /mnt/c/personal/quick_cmake/sources/quick_cmake/main.py --workspace /mnt/c/personal/reflection_cpp --std=c++17 --module=reflection --post_build)
 set_target_properties(reflection PROPERTIES LINKER_LANGUAGE CXX)
 
 
@@ -49,11 +49,8 @@ source_group("ut_file" FILES ${test_reflection_reflection})
 add_executable(test_reflection_reflection ${test_reflection_reflection} )
 target_include_directories(test_reflection_reflection 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_reflection  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_reflection  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_reflection PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -64,11 +61,8 @@ source_group("ut_file" FILES ${test_reflection_status})
 add_executable(test_reflection_status ${test_reflection_status} )
 target_include_directories(test_reflection_status 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_status  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_status  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_status PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -79,11 +73,8 @@ source_group("ut_file" FILES ${test_reflection_utils})
 add_executable(test_reflection_utils ${test_reflection_utils} )
 target_include_directories(test_reflection_utils 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_utils  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_utils  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_utils PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -94,11 +85,8 @@ source_group("ut_file" FILES ${test_reflection_func_func_base_classes})
 add_executable(test_reflection_func_func_base_classes ${test_reflection_func_func_base_classes} )
 target_include_directories(test_reflection_func_func_base_classes 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_func_func_base_classes  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_func_func_base_classes  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_func_func_base_classes PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -109,11 +97,8 @@ source_group("ut_file" FILES ${test_reflection_func_func_signature})
 add_executable(test_reflection_func_func_signature ${test_reflection_func_func_signature} )
 target_include_directories(test_reflection_func_func_signature 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_func_func_signature  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_func_func_signature  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_func_func_signature PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -124,11 +109,8 @@ source_group("ut_file" FILES ${test_reflection_func_string_callable})
 add_executable(test_reflection_func_string_callable ${test_reflection_func_string_callable} )
 target_include_directories(test_reflection_func_string_callable 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_func_string_callable  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_func_string_callable  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_func_string_callable PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -139,11 +121,8 @@ source_group("ut_file" FILES ${test_reflection_meta_meta_base_classes})
 add_executable(test_reflection_meta_meta_base_classes ${test_reflection_meta_meta_base_classes} )
 target_include_directories(test_reflection_meta_meta_base_classes 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_meta_meta_base_classes  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_meta_meta_base_classes  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_meta_meta_base_classes PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -154,11 +133,8 @@ source_group("ut_file" FILES ${test_reflection_serialization_binary_coder})
 add_executable(test_reflection_serialization_binary_coder ${test_reflection_serialization_binary_coder} )
 target_include_directories(test_reflection_serialization_binary_coder 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_serialization_binary_coder  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_serialization_binary_coder  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_serialization_binary_coder PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -169,11 +145,8 @@ source_group("ut_file" FILES ${test_reflection_serialization_byte_swapper})
 add_executable(test_reflection_serialization_byte_swapper ${test_reflection_serialization_byte_swapper} )
 target_include_directories(test_reflection_serialization_byte_swapper 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_serialization_byte_swapper  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_serialization_byte_swapper  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_serialization_byte_swapper PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -184,11 +157,8 @@ source_group("ut_file" FILES ${test_reflection_serialization_endian})
 add_executable(test_reflection_serialization_endian ${test_reflection_serialization_endian} )
 target_include_directories(test_reflection_serialization_endian 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_serialization_endian  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_serialization_endian  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_serialization_endian PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -199,11 +169,8 @@ source_group("ut_file" FILES ${test_reflection_serialization_serialize})
 add_executable(test_reflection_serialization_serialize ${test_reflection_serialization_serialize} )
 target_include_directories(test_reflection_serialization_serialize 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_serialization_serialize  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_serialization_serialize  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_serialization_serialize PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -214,11 +181,8 @@ source_group("ut_file" FILES ${test_reflection_serialization_text_code})
 add_executable(test_reflection_serialization_text_code ${test_reflection_serialization_text_code} )
 target_include_directories(test_reflection_serialization_text_code 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_serialization_text_code  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_serialization_text_code  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_serialization_text_code PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -229,11 +193,8 @@ source_group("ut_file" FILES ${test_reflection_serialization_utils})
 add_executable(test_reflection_serialization_utils ${test_reflection_serialization_utils} )
 target_include_directories(test_reflection_serialization_utils 
  PUBLIC ${SOURCE_DIR}/reflection PUBLIC ${PROJECT_DIR}/third_parties/googletest/include)
-target_link_libraries(test_reflection_serialization_utils  optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest_main.lib
- optimized ${PROJECT_DIR}/third_parties/googletest/lib/windows/Release/gtest.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest_main.lib
- debug ${PROJECT_DIR}/third_parties/googletest/lib/windows/Debug/gtest.lib
- general reflection
+target_link_libraries(test_reflection_serialization_utils  general reflection
+ general pthread
 )
 set_target_properties(test_reflection_serialization_utils PROPERTIES LINKER_LANGUAGE CXX)
 

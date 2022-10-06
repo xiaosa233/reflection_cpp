@@ -43,6 +43,7 @@ public:
   virtual string_status invoke_by_string(const std::vector<std::string>& args,
                                          meta_object* object) const = 0;
 
+#pragma optimize("s", on)
   template <class return_type = void, class... Args>
   context_status<return_type> invoke(Args&&... args) const {
     constexpr size_t call_args_size = sizeof...(Args);
@@ -61,15 +62,14 @@ public:
     }
     const func_signature& real_signature = get_signature();
 // weird trick. If enable optimization, somehow, it will go into the failure branch whatever the return value.
-#pragma optimize( "s", on )
     if (!call_signature.to(real_signature)) {
       return context_status<return_type>::error(real_signature.to_string() + ": error invoke info " +
                                                 call_signature.to_string());
     }
     return static_cast<const func_item_args_type<return_type, Args...>*>(this)->invoke_help(
         std::forward<Args>(args)...);
-#pragma optimize( "s", off )
   }
+#pragma optimize("s", off)
 
 protected:
   std::string get_func_hint() const {
